@@ -33,8 +33,7 @@ const createdTransaction = await Transaction.create({
         transactionType,
         user:id
 
-
-    })
+})
    if(!createdTransaction){
     throw new Error("Transaction is not created")
    }
@@ -50,9 +49,9 @@ const createdTransaction = await Transaction.create({
 
    ;
      
-res.send("Transaction successfully added",)
+res.send("Transaction successfully added")
 
-   
+
 }),  
 
 
@@ -226,9 +225,10 @@ categorylist: asyncHandler(async(req,res)=>{
   const {id} = req.user
 console.log(id)
 const categorylist = await Transaction.find({user:id})
+const category =  categorylist.map((element)=>element.category)
 
-console.log(categorylist)
- 
+console.log("category list",category)
+
 res.send(categorylist)
 
 }),
@@ -266,7 +266,7 @@ const transactionDelete = await Transaction.deleteMany({category : new mongoose.
 
 console.log("mapping")
 
-const ids =  transactionId.map((element)=>element._id)
+  const ids =  transactionId.map((element)=>element._id)
 
 console.log(ids)
 
