@@ -236,57 +236,57 @@ res.send(categorylist)
 
 deleteCategory  : asyncHandler(async(req,res)=>{
 
-    const userId = req.user.id
-    console.log(userId)
-    console.log("deletecategory")
-    const {id} = req.params
-    console.log(id)
+//     const userId = req.user.id
+//     console.log(userId)
+//     console.log("deletecategory")
+//     //const {id} = req.params
+//     console.log(id)
 
-    if(!id)
-        throw new Error("Data incomplete")
+//     if(!id)
+//         throw new Error("Data incomplete")
 
-console.log("Delete")
+// console.log("Delete")
 
-    console.log("finding transactions")
+//     console.log("finding transactions")
 
-    const  transactionId = await Transaction.find({category:  new mongoose.Types.ObjectId(id)})
+//     const  transactionId = await Transaction.find({category})
     
    
-const transactionDelete = await Transaction.deleteMany({category : new mongoose.Types.ObjectId(id)},
+// const transactionDelete = await Transaction.deleteMany({category},
 
-    {
+//     {
             
-        new : true,
-        runValidators : true
-    })
+//         new : true,
+//         runValidators : true
+//     })
     
-    console.log(transactionDelete)     //transaction deletion
+//     console.log(transactionDelete)     //transaction deletion
 
 
 
-console.log("mapping")
+// console.log("mapping")
 
-  const ids =  transactionId.map((element)=>element._id)
+//   const ids =  transactionId.map((element)=>element._id)
 
-console.log(ids)
+// console.log(ids)
 
 
 
-const userDelete = await User.findByIdAndUpdate(userId ,{ "$pullAll": { transaction : ids}},
+// const userDelete = await User.findByIdAndUpdate(userId ,{ "$pullAll": { transaction : ids}},
 
-{
+// {
         
-    new : true,
-    runValidators : true
-})
+//     new : true,
+//     runValidators : true
+// })
 
-console.log(userDelete)                       //userTransactionDeletion
-
-
-const categoryDeletion = await Category.deleteOne({_id:new mongoose.Types.ObjectId(id)})   //categoryDeletion
+// console.log(userDelete)                       //userTransactionDeletion
 
 
-res.send("Category deleted")
+  
+
+
+// res.send("Category deleted")
 }),
 
 
@@ -342,38 +342,47 @@ getCategoryExpense: asyncHandler(async(req,res)=>{
     
 }),
 
+
+
 categoryTransaction : asyncHandler(async(req,res)=>{         //Full list of transactions        
 
 
-  console.log("ki");
+ 
     const userId  = req.user.id
     console.log("userId",userId)
 
-    const {id} = req.params
-    console.log("id",id);
+    // const {id} = req.params
+    // console.log("id",id);
     
    
     
-const results = await Category.aggregate([
-        {
-          $match: { user : new mongoose.Types.ObjectId(userId),
-            _id :  new mongoose.Types.ObjectId(id)
-          }
-        },
-          {
-           $lookup: {
-          from: "transactions",
-            localField: "transaction",
-             foreignField: "_id",
-               as: "categoryTransactions"
-           }
-         },
-         { $unwind: "$categoryTransactions" },
+// const results = await Category.aggregate([
+//         {
+//           $match: { user : new mongoose.Types.ObjectId(userId),
+//             _id :  new mongoose.Types.ObjectId(id)
+//           }
+//         },
+//           {
+//            $lookup: {
+//           from: "transactions",
+//             localField: "transaction",
+//              foreignField: "_id",
+//                as: "categoryTransactions"
+//            }
+//          },
+//          { $unwind: "$categoryTransactions" },
      
-      ])
+//       ])
 
     
-     console.log(results) 
+//      console.log(results) 
+
+
+  const results = await Transaction.findById(userId)
+  
+
+  console.log(results)
+
      res.send(results);
 })
 

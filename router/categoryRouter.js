@@ -6,8 +6,11 @@ const categoryRouter = express.Router()
 
 
 categoryRouter.get("/categorylist",middleware,transactionController.categorylist)
-categoryRouter.get("/category_transaction/:id",middleware,transactionController.categoryTransaction)
+
+categoryRouter.get("/category_transaction",middleware,transactionController.categoryTransaction)
+
 categoryRouter.delete("/delete_category/:id",middleware,transactionController.deleteCategory)
+
 categoryRouter.get("/category_expense/:id",middleware,transactionController.getCategoryExpense)
 
 
